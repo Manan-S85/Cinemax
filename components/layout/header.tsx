@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { Home, Film, Tv, Search, Sun, Moon } from 'lucide-react';
+import { Home, Film, Heart, Search, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 
@@ -44,6 +44,9 @@ export function Header() {
         </Link>
         <Link href="/movies" className="nav-icon group" title="Movies">
           <Film className="h-6 w-6 text-gray-400 group-hover:text-blue-500 transition-colors" />
+        </Link>
+        <Link href="/watchlist" className="nav-icon group" title="Watchlist">
+          <Heart className="h-6 w-6 text-gray-400 group-hover:text-red-500 transition-colors" />
         </Link>
         <Link href="/browse" className="nav-icon group" title="Search">
           <Search className="h-6 w-6 text-gray-400 group-hover:text-blue-500 transition-colors" />

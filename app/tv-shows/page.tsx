@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Tv, Star, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MediaCard } from '@/components/media-card';
+import { ServerMediaCard } from '@/components/server-media-card';
 import { getTVShows } from '@/lib/data';
 import { MediaItem } from '@/types';
 
@@ -89,7 +89,7 @@ export default async function TVShowsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {mockTVShows.reduce((acc, show) => acc + (show.number_of_episodes || 0), 0)}
+              {tvShows.reduce((acc, show) => acc + (show.number_of_episodes || 0), 0)}
             </div>
             <p className="text-xs text-muted-foreground">
               Across all series
@@ -113,7 +113,7 @@ export default async function TVShowsPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {topRatedShows.map((show) => (
-            <MediaCard key={show.id} item={show} />
+            <ServerMediaCard key={show.id} item={show} />
           ))}
         </div>
       </section>
@@ -133,7 +133,7 @@ export default async function TVShowsPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {recentShows.map((show) => (
-            <MediaCard key={show.id} item={show} />
+            <ServerMediaCard key={show.id} item={show} />
           ))}
         </div>
       </section>
@@ -153,7 +153,7 @@ export default async function TVShowsPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {popularShows.map((show) => (
-            <MediaCard key={show.id} item={show} />
+            <ServerMediaCard key={show.id} item={show} />
           ))}
         </div>
       </section>

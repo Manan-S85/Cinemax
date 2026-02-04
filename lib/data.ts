@@ -90,7 +90,7 @@ export async function getMovies(): Promise<Movie[]> {
     // Add genres to each movie
     const moviesWithGenres = uniqueMovies.map(movie => ({
       ...transformMovieToMediaItem(movie),
-      genres: movie.genre_ids?.map(id => 
+      genres: movie.genre_ids?.map((id: number) => 
         genres.find(genre => genre.id === id)
       ).filter(Boolean) || []
     }));
@@ -133,7 +133,7 @@ export async function getTVShows(): Promise<TVShow[]> {
     // Add genres to each TV show
     const tvShowsWithGenres = uniqueTVShows.map(show => ({
       ...transformTVShowToMediaItem(show),
-      genres: show.genre_ids?.map(id => 
+      genres: show.genre_ids?.map((id: number) => 
         genres.find(genre => genre.id === id)
       ).filter(Boolean) || []
     }));

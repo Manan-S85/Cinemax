@@ -1,8 +1,14 @@
 import { MetadataRoute } from 'next';
-import { mockMovies, mockTVShows } from '@/lib/data';
+import { getMovies, getTVShows } from '@/lib/data';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+  // Get data
+  const [movies, tvShows] = await Promise.all([
+    getMovies(),
+    getTVShows()
+  ]);
 
   // Static routes
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -39,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Movie routes
-  const movieRoutes: MetadataRoute.Sitemap = mockMovies.map((movie) => ({
+  const movieRoutes: MetadataRoute.Sitemap = movies.map((movie) => ({
     url: `${baseUrl}/movie/${movie.id}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
@@ -47,7 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // TV show routes
-  const tvRoutes: MetadataRoute.Sitemap = mockTVShows.map((show) => ({
+  const tvRoutes: MetadataRoute.Sitemap = tvShows.map((show) => ({
     url: `${baseUrl}/tv/${show.id}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,

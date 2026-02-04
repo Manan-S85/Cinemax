@@ -5,7 +5,7 @@ import { Trophy, Star, Filter, TrendingUp, Calendar, Users } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MediaCard } from '@/components/media-card';
+import { ServerMediaCard } from '@/components/server-media-card';
 import { getAllMediaItems } from '@/lib/data';
 import { getImageUrl } from '@/lib/utils';
 
@@ -167,7 +167,7 @@ export default async function CollectionsPage() {
               {collection.items.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {collection.items.slice(0, 4).map((item) => (
-                    <MediaCard key={`${item.media_type}-${item.id}`} item={item} />
+                    <ServerMediaCard key={`${item.media_type}-${item.id}`} item={item} />
                   ))}
                 </div>
               ) : (

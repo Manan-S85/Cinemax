@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ThemeProvider } from '@/components/theme-provider';
+import { UserPreferencesProvider } from '@/components/user-preferences-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -50,11 +51,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="min-h-screen flex">
-            <Header />
-            <main className="flex-1 ml-16">{children}</main>
-          </div>
-          <Footer />
+          <UserPreferencesProvider>
+            <div className="min-h-screen flex">
+              <Header />
+              <main className="flex-1 ml-16">{children}</main>
+            </div>
+            <Footer />
+          </UserPreferencesProvider>
         </ThemeProvider>
       </body>
     </html>

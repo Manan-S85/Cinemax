@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Film, Star, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MediaCard } from '@/components/media-card';
+import { ServerMediaCard } from '@/components/server-media-card';
 import { getMovies } from '@/lib/data';
 import { MediaItem } from '@/types';
 
@@ -69,7 +69,7 @@ export default async function MoviesPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {topRatedMovies.map((movie) => (
-            <MediaCard key={movie.id} item={movie} />
+            <ServerMediaCard key={movie.id} item={movie} />
           ))}
         </div>
       </section>
@@ -89,7 +89,7 @@ export default async function MoviesPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {recentMovies.map((movie) => (
-            <MediaCard key={movie.id} item={movie} />
+            <ServerMediaCard key={movie.id} item={movie} />
           ))}
         </div>
       </section>
@@ -109,7 +109,7 @@ export default async function MoviesPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {popularMovies.map((movie) => (
-            <MediaCard key={movie.id} item={movie} />
+            <ServerMediaCard key={movie.id} item={movie} />
           ))}
         </div>
       </section>

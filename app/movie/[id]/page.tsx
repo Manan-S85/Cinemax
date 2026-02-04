@@ -6,6 +6,7 @@ import { Star, Calendar, Clock, Globe, ArrowLeft, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { BackButton } from '@/components/back-button';
 import { getMovieDetails } from '@/lib/tmdb-api';
 import { formatRating, getImageUrl, formatDate } from '@/lib/utils';
 
@@ -68,12 +69,9 @@ export default async function MoviePage({ params }: MoviePageProps) {
         }}
       >
         <div className="container px-4 py-8 h-full flex items-end">
-          <Button variant="outline" size="sm" asChild className="mb-4 bg-black/50 border-white/20 text-white hover:bg-white/10">
-            <Link href="/movies">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Movies
-            </Link>
-          </Button>
+          <div className="bg-black/50 border border-white/20 rounded-md p-1">
+            <BackButton />
+          </div>
         </div>
       </div>
 
@@ -125,7 +123,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Genres</h3>
                   <div className="flex flex-wrap gap-2">
-                    {movie.genres.map((genre) => (
+                    {movie.genres.map((genre: { id: number; name: string }) => (
                       <Badge key={genre.id} variant="secondary">
                         {genre.name}
                       </Badge>

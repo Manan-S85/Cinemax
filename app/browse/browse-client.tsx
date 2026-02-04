@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { MediaCard } from '@/components/media-card';
 import { MediaItem, Genre } from '@/types';
@@ -12,34 +13,78 @@ interface BrowseClientProps {
 }
 
 export default function BrowseClient({ initialItems, genres }: BrowseClientProps) {
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const initialQuery = searchParams.get('q') || '';
+  
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [isLoading, setIsLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<MediaItem[]>([]);
-  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(!!initialQuery);
 
-  // Debounced search
+  const updateURL = (query: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (query) {
+      params.set('q', query);
+    } else {
+      params.delete('q');
+    }
+    router.push(`/browse?${params.toString()}`, { scroll: false });
+  };
+
+  // Load search results if there's an initial query
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (searchQuery.trim().length > 0) {
+    if (initialQuery) {
+      const loadInitialResults = async () => {
         setIsLoading(true);
         try {
-          const results = await searchMulti(searchQuery);
+          const results = await searchMulti(initialQuery);
           setSearchResults(results.results);
           setShowSearchResults(true);
         } catch (error) {
-          console.error('Search error:', error);
-          alert(`Search failed. Please try again.`);
+          console.error('Initial search error:', error);
         } finally {
           setIsLoading(false);
         }
-      } else {
-        setSearchResults([]);
-        setShowSearchResults(false);
+      };
+      loadInitialResults();
+    }
+  }, [initialQuery]);
+
+  const handleSearch = async (query: string) => {
+    if (query.trim().length > 0) {
+      setIsLoading(true);
+      try {
+        const results = await searchMulti(query);
+        setSearchResults(results.results);
+        setShowSearchResults(true);
+        updateURL(query);
+      } catch (error) {
+        console.error('Search error:', error);
+        alert(`Search failed. Please try again.`);
+      } finally {
+        setIsLoading(false);
       }
+    } else {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      updateURL('');
+    }
+  };
+
+  // Debounced search - only for user input, not initial load
+  useEffect(() => {
+    // Don't debounce the initial query
+    if (searchQuery === initialQuery && initialQuery) {
+      return;
+    }
+    
+    const timer = setTimeout(() => {
+      handleSearch(searchQuery);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [searchQuery]);
+  }, [searchQuery, initialQuery]);
 
   return (
     <div className="container px-4 py-8 space-y-8">

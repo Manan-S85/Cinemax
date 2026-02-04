@@ -156,3 +156,22 @@ export interface SortOption {
   value: string;
   label: string;
 }
+
+export interface UserPreferences {
+  favoriteGenres: number[];
+  watchlist: MediaItem[];
+  recentlyViewed: number[];
+  theme: 'light' | 'dark';
+  lastVisited: string;
+}
+
+export interface UserContext {
+  preferences: UserPreferences;
+  updatePreferences: (updates: Partial<UserPreferences>) => void;
+  addToWatchlist: (item: MediaItem) => void;
+  removeFromWatchlist: (id: number) => void;
+  toggleFavoriteGenre: (genreId: number) => void;
+  addToRecentlyViewed: (id: number) => void;
+  isInWatchlist: (id: number) => boolean;
+  isFavoriteGenre: (genreId: number) => boolean;
+}

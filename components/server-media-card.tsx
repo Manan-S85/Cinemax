@@ -1,38 +1,20 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star, Calendar, Film, Tv, Heart, Plus, Check } from 'lucide-react';
+import { Star, Calendar, Film, Tv } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MediaItem } from '@/types';
 import { formatRating, getImageUrl, formatDate } from '@/lib/utils';
-import { useUserPreferences } from '@/components/user-preferences-provider';
 
-interface MediaCardProps {
+interface ServerMediaCardProps {
   item: MediaItem;
 }
 
-export function MediaCard({ item }: MediaCardProps) {
-  const { addToWatchlist, removeFromWatchlist, isInWatchlist, addToRecentlyViewed } = useUserPreferences();
+export function ServerMediaCard({ item }: ServerMediaCardProps) {
   const title = item.media_type === 'movie' ? item.title : item.name;
   const releaseDate = item.media_type === 'movie' ? item.release_date : item.first_air_date;
   const detailUrl = item.media_type === 'movie' ? `/movie/${item.id}` : `/tv/${item.id}`;
-  const inWatchlist = isInWatchlist(item.id);
-
-  const handleWatchlistToggle = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent Link navigation
-    e.stopPropagation();
-    
-    if (inWatchlist) {
-      removeFromWatchlist(item.id);
-    } else {
-      addToWatchlist(item);
-    }
-  };
-
-  const handleViewDetails = () => {
-    addToRecentlyViewed(item.id);
-  };
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -44,28 +26,11 @@ export function MediaCard({ item }: MediaCardProps) {
           className="object-cover"
           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
         />
-        <div className="absolute top-2 right-2 flex flex-col gap-2 z-10">
+        <div className="absolute top-2 right-2">
           <Badge variant="secondary" className="flex items-center gap-1">
             <Star className="h-3 w-3 fill-current" />
             {formatRating(item.vote_average)}
           </Badge>
-          <Button
-            size="sm"
-            variant={inWatchlist ? "default" : "secondary"}
-            onClick={handleWatchlistToggle}
-            className={`h-8 w-8 p-0 shadow-lg border-2 transition-all duration-200 ${
-              inWatchlist 
-                ? 'bg-green-600 hover:bg-green-700 border-green-500 text-white' 
-                : 'bg-white/90 hover:bg-white border-gray-300 text-gray-700 hover:text-gray-900'
-            }`}
-            title={inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
-          >
-            {inWatchlist ? (
-              <Check className="h-4 w-4" />
-            ) : (
-              <Plus className="h-4 w-4" />
-            )}
-          </Button>
         </div>
         <div className="absolute top-2 left-2">
           <Badge variant="outline" className="flex items-center gap-1 bg-background/80">
@@ -97,7 +62,7 @@ export function MediaCard({ item }: MediaCardProps) {
           ))}
         </div>
         <Button asChild className="w-full">
-          <Link href={detailUrl} onClick={handleViewDetails}>
+          <Link href={detailUrl}>
             View Details
           </Link>
         </Button>
