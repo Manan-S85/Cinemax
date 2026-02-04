@@ -33,18 +33,18 @@ export default async function MoviesPage() {
     .slice(0, 8);
 
   return (
-    <div className="container px-4 py-8 space-y-8">
+    <div className="container px-4 py-8 space-y-8 relative z-10">
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <Film className="h-8 w-8 text-primary" />
-          <h1 className="text-4xl font-bold tracking-tight">Movies Collection</h1>
+          <Film className="h-8 w-8 text-orange-400" />
+          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white via-amber-200 to-white bg-clip-text text-transparent drop-shadow-2xl">Movies Collection</h1>
         </div>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-xl text-amber-100 max-w-2xl mx-auto drop-shadow-lg">
           Explore our carefully curated selection of the greatest movies ever made, 
           from timeless classics to modern masterpieces.
         </p>
-        <Button asChild size="lg">
+        <Button asChild size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white border-0 shadow-lg shadow-orange-500/30">
           <Link href="/browse?type=movie">
             <TrendingUp className="mr-2 h-4 w-4" />
             Browse All Movies
