@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { UserPreferences } from '@/types';
+import { UserPreferences, MediaItem } from '@/types';
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   favoriteGenres: [],
